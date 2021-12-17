@@ -22,7 +22,7 @@ map <- leaflet()%>%addTiles()%>%
   addCircles(data = Apotheken, lat = ~Latitude, lng = ~Longitude, popup = ~paste(Name),radius = 10, color = '#318745')
 
 
-
+print("hallo")
   
 map
 
