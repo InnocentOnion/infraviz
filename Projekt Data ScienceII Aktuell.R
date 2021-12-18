@@ -58,15 +58,19 @@ Krankenhauser_und_Kliniken<-Krankenhauser_und_Kliniken%>%
 
 # Schulen laden
 Schulen <- read.csv(paste(Cedric,"schulen.csv", sep = "/"), na="NA", sep=",")
+Schulen <- Schulen %>%
+  rename(Name = name)
+
 
 #DB Bahnhöfe laden
 DBBahnhofe <- read.csv(paste(Cedric,"D_Bahnhof_2020_alle.csv", sep = "/"),na="NA",sep=";",dec=",")
 str(DBBahnhofe)
 DBBahnhofe<-DBBahnhofe %>%
   select(Laenge, Breite, NAME) %>%
+  rename(Name = NAME) %>%
   rename(Longitude = Laenge) %>%
   rename(Latitude = Breite) 
-length(DBBahnhofe$NAME)
+
 
   
 
@@ -77,7 +81,8 @@ Bushaltestellen <- Bushaltestellen %>%
   gsub(",", ".", .) %>% 
   as.numeric()) %>% 
   mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
-length(Bushaltestellen$Latitude)
+
+
 
 #UBahn laden
 Ubahn<-read_excel(paste(Cedric,"U-Bahn Haltestellen in Deutschland.xlsx", sep = "/"))
