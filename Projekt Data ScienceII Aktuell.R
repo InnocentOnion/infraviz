@@ -3,11 +3,18 @@
 library(readxl)
 library(dplyr)  
 
+Cedric = "/Users/cedric/Dropbox/Data Science II/All_data"
+Georg=
+
 # Apotheken laden
-Apotheken <- read_excel("/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II Backup/Apotheken/Apotheken-in-Deutschland.xlsx",na="NA")
-Apotheken <- Apotheken %>% mutate(Latitude = Latitude %>% gsub(",", ".", .) %>% as.numeric())
-Apotheken <- Apotheken %>% mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric()) 
-Apotheken <- Apotheken %>% select(-`Opening hours`,-Phone)
+Apotheken <- read_excel(paste(Cedric,"Apotheken-in-Deutschland.xlsx", sep = "/"),na="NA")
+Apotheken <- Apotheken %>% 
+  mutate(Latitude = Latitude %>% 
+           gsub(",", ".", .) %>% 
+           as.numeric()) %>%
+          mutate(Longitude = Longitude %>% 
+            gsub(",", ".", .) %>% as.numeric()) %>% 
+            select(-`Opening hours`,-Phone)
 
 # Fitnessstudios laden
 Fitnessstudios_und_Sportplätze<- read_excel("/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II Backup/Sportplätze und Fitnessstudios/Sportplaetze-und-Fitnessstudios-in-Deutschland.xlsx",na="NA")
