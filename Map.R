@@ -17,9 +17,9 @@ Apotheken$Longitude <- as.numeric(Apotheken$Longitude)
 Apotheken$Latitude <- as.numeric(Apotheken$Latitude)
 
 map <- leaflet()%>%addTiles()%>%
-  addCircles(data = Kranken, lat = ~Latitude, lng = ~Longitude, popup = ~paste(Name,City,sep=", "),radius = 10) %>%
-  addCircles(data = Schulen, lat = ~lat, lng = ~lon, popup = ~paste(name),radius = 10, color = '#31882A')
-  addCircles(data = Apotheken, lat = ~Latitude, lng = ~Longitude, popup = ~paste(Name),radius = 10, color = '#318745')
+  addCircles(data = Kranken, lat = ~Latitude, lng = ~Longitude, popup = ~paste(Name,City,sep=", "),radius = 1) %>%
+  addCircles(data = Schulen, lat = ~lat, lng = ~lon, popup = ~paste(name),radius = 1, color = '#31882A') %>%
+  addCircles(data = Apotheken, lat = ~Latitude, lng = ~Longitude, popup = ~paste(Name),radius = 1, color = '#61882A')
 
 
 

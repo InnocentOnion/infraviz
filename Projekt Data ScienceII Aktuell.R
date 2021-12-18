@@ -6,7 +6,8 @@ library(dplyr)
 # Apotheken laden
 Apotheken <- read_excel("/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II Backup/Apotheken/Apotheken-in-Deutschland.xlsx",na="NA")
 Apotheken <- Apotheken %>% mutate(Latitude = Latitude %>% gsub(",", ".", .) %>% as.numeric())
-Apotheken <- Apotheken %>% mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
+Apotheken <- Apotheken %>% mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric()) 
+Apotheken <- Apotheken %>% select(-`Opening hours`,-Phone)
 
 # Fitnessstudios laden
 Fitnessstudios_und_Sportplätze<- read_excel("/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II Backup/Sportplätze und Fitnessstudios/Sportplaetze-und-Fitnessstudios-in-Deutschland.xlsx",na="NA")
@@ -44,6 +45,5 @@ Bushaltestellen <- Bushaltestellen %>% mutate(Longitude = Longitude %>% gsub(","
 
 #ÖPNV Haltestellen laden
 OPNV_Haltestellen <- data.xls <- read_excel("/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II Backup/ÖPNV/2 [alle Haltestellen]/20211203_zHV_gesamt/zHV_aktuell_csv.2021-12-03.xlsx",na="NA") 
-
-OPNV_Haltestellen_Filter <- filter(OPNV_Haltestellen, Type == 'S' & State != 'OutOfOrder') 
-OPNV_Haltestellen_Filter <- OPNV_Haltestellen_Filter %>% select(-Parent,-DHID,-SeqNo,-MunicipalityCode,-Municipality,-DistrictCode,-District,-Description,-DelfiName,-TariffDHID,-TariffName)
+OPNV_Haltestellen <- filter(OPNV_Haltestellen, Type == 'S' & State != 'OutOfOrder') 
+OPNV_Haltestellen <- OPNV_Haltestellen %>% select(-Parent,-DHID,-SeqNo,-MunicipalityCode,-Municipality,-DistrictCode,-District,-Description,-DelfiName,-TariffDHID,-TariffName)
