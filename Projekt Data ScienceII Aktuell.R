@@ -54,8 +54,7 @@ Polizeistationen <- Polizeistationen %>%
   as.numeric()) %>% 
   mutate(Longitude = Longitude %>% 
   gsub(",", ".", .) %>% 
-  as.numeric()) %>%
-  select(type, Latitude, Longitude, Name)
+  as.numeric()) 
 
 # Feuerwehrstationen laden
 Feuerwehrstationen <- read_excel(paste(Cedric,"Feuerwehren-und-Feuerwehrhaeuser-in-Deutschland.xlsx", sep = "/"),na="NA")
@@ -107,12 +106,12 @@ Bushaltestellen <- Bushaltestellen %>%
 #UBahn laden
 Ubahn<-read_excel(paste(Cedric,"U-Bahn Haltestellen in Deutschland.xlsx", sep = "/"))
 Ubahn<-Ubahn %>%
-  mutate(type = "Ubahn") %>%
   select(Name, Latitude, Longitude) %>% 
   mutate(Latitude = Latitude %>% 
   gsub(",", ".", .) %>% 
   as.numeric()) %>% 
-  mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
+  mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric()) %>%
+  mutate(type = "Ubahn") 
 
 str(Ubahn)
 
@@ -126,11 +125,11 @@ infradata<-rbindlist(list(Ubahn,
                             Schulen,
                             Polizeistationen,
                             Garten_und_Parks), use.names = TRUE, fill = TRUE)
-str(infradata)
+
 ##################
 #Daten als CSV schreiben
 #Raute entfernen um auszuführen
-#write.csv(infradata, paste(Cedric, "infradata.csv", sep = "/"))
+'write.csv(infradata, paste(Cedric, "infradata.csv", sep = "/"))
 
 
 
