@@ -59,7 +59,9 @@ Krankenhauser_und_Kliniken<-Krankenhauser_und_Kliniken%>%
 # Schulen laden
 Schulen <- read.csv(paste(Cedric,"schulen.csv", sep = "/"), na="NA", sep=",")
 Schulen <- Schulen %>%
-  rename(Name = name)
+  rename(Name = name) %>%
+  rename(Latitude = lat) %>%
+  rename(Longitude = lon)
 
 
 #DB Bahnhöfe laden
@@ -82,8 +84,6 @@ Bushaltestellen <- Bushaltestellen %>%
   as.numeric()) %>% 
   mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
 
-
-
 #UBahn laden
 Ubahn<-read_excel(paste(Cedric,"U-Bahn Haltestellen in Deutschland.xlsx", sep = "/"))
 Ubbahn<-Ubahn %>%
@@ -93,19 +93,11 @@ Ubbahn<-Ubahn %>%
   as.numeric()) %>% 
   mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
 
-
 #ÖPNV Haltestellen laden
 OPNV_Haltestellen <- read_excel(paste(Cedric,"zHV_aktuell_csv.2021-12-03.xlsx", sep = "/"),na="NA") 
 OPNV_Haltestellen <- filter(OPNV_Haltestellen, Type == 'S' & State != 'OutOfOrder') %>% 
   select(-Parent,-DHID,-SeqNo,-MunicipalityCode,-Municipality,-DistrictCode,-District,-Description,-DelfiName,-TariffDHID,-TariffName)
 length(OPNV_Haltestellen$Name)
 
-
-
-test<-OPNV_Haltestellen %>%
-  inner_join(DBBahnhofe,by = c("Name" = "NAME"))
-?inner_join
-length(test$Name)
-test$Name
 
 
