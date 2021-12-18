@@ -60,6 +60,14 @@ Schulen <- read.csv(paste(Cedric,"schulen.csv", sep = "/"), na="NA", sep=",")
 
 #DB Bahnhöfe laden
 DBBahnhofe <- read.csv(paste(Cedric,"D_Bahnhof_2020_alle.csv", sep = "/"),na="NA",sep=";",dec=",")
+str(DBBahnhofe)
+DBBahnhofe<-DBBahnhofe %>%
+  select(Laenge, Breite, NAME) %>%
+  rename(Longitude = Laenge) %>%
+  rename(Latitude = Breite) 
+length(DBBahnhofe$NAME)
+
+  
 
 #Bushaltestellen laden
 Bushaltestellen <- read_excel(paste(Cedric,"Bushaltestellen-in-Deutschland.xlsx", sep = "/")) 
@@ -68,6 +76,10 @@ Bushaltestellen <- Bushaltestellen %>%
   gsub(",", ".", .) %>% 
   as.numeric()) %>% 
   mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
+length(Bushaltestellen$Latitude)
+
+#UBahn laden
+Ubahn<-read_excel(paste(Cedric,"U-Bahn Haltestellen in Deutschland.xlsx", sep = "/"))
 
 #ÖPNV Haltestellen laden
 OPNV_Haltestellen <- read_excel(paste(Cedric,"zHV_aktuell_csv.2021-12-03.xlsx", sep = "/"),na="NA") 
