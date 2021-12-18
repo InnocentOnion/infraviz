@@ -4,7 +4,7 @@ library(readxl)
 library(dplyr)  
 
 Cedric = "/Users/cedric/Dropbox/Data Science II/All_data"
-Georg=
+Georg = "/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data"
 
 # Apotheken laden
 Apotheken <- read_excel(paste(Cedric,"Apotheken-in-Deutschland.xlsx", sep = "/"),na="NA")
