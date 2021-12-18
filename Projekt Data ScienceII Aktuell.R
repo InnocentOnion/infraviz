@@ -52,8 +52,9 @@ Feuerwehrstationen <- Feuerwehrstationen %>% mutate(Latitude = Latitude %>% gsub
   mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
 
 # Krankenhäuser laden
-Krankenhauser_und_Kliniken <- read.csv(paste(Cedric,"Krankenhaeuser-und-Kliniken-in-Deutschland.csv", sep = "/"),na="NA",sep=";",dec=",") %>%
-  select(-Phone)
+Krankenhauser_und_Kliniken <- read.csv(paste(Cedric,"Krankenhaeuser-und-Kliniken-in-Deutschland.csv", sep = "/"),na="NA",sep=";",dec=",") 
+Krankenhauser_und_Kliniken<-Krankenhauser_und_Kliniken%>%
+  select(Name, Latitude, Longitude)
 
 # Schulen laden
 Schulen <- read.csv(paste(Cedric,"schulen.csv", sep = "/"), na="NA", sep=",")
@@ -80,17 +81,26 @@ length(Bushaltestellen$Latitude)
 
 #UBahn laden
 Ubahn<-read_excel(paste(Cedric,"U-Bahn Haltestellen in Deutschland.xlsx", sep = "/"))
+Ubbahn<-Ubahn %>%
+  select(Name, Latitude, Longitude) %>% 
+  mutate(Latitude = Latitude %>% 
+  gsub(",", ".", .) %>% 
+  as.numeric()) %>% 
+  mutate(Longitude = Longitude %>% gsub(",", ".", .) %>% as.numeric())
+
 
 #ÖPNV Haltestellen laden
 OPNV_Haltestellen <- read_excel(paste(Cedric,"zHV_aktuell_csv.2021-12-03.xlsx", sep = "/"),na="NA") 
 OPNV_Haltestellen <- filter(OPNV_Haltestellen, Type == 'S' & State != 'OutOfOrder') %>% 
   select(-Parent,-DHID,-SeqNo,-MunicipalityCode,-Municipality,-DistrictCode,-District,-Description,-DelfiName,-TariffDHID,-TariffName)
+length(OPNV_Haltestellen$Name)
 
 
 
-
-
-
-
+test<-OPNV_Haltestellen %>%
+  inner_join(DBBahnhofe,by = c("Name" = "NAME"))
+?inner_join
+length(test$Name)
+test$Name
 
 
