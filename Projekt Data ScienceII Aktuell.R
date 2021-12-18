@@ -129,7 +129,7 @@ infradata<-rbindlist(list(Ubahn,
 ##################
 #Daten als CSV schreiben
 #Raute entfernen um auszuführen
-'write.csv(infradata, paste(Cedric, "infradata.csv", sep = "/"))
+#write.csv(infradata, paste(Cedric, "infradata.csv", sep = "/"))
 
 
 
