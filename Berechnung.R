@@ -18,11 +18,13 @@ pop_data<-read_excel("/Users/cedric/Dropbox/Data Science II/All_data/Bevölkerun
 geo_data_full<-geo_data_transformed %>%
   inner_join(pop_data, by = c("NUTS_CODE"="NUTS3")) %>%
   select(-Schlüsselnummer, -männlich, -weiblich) %>%
-  mutate(Infra_by_pop = insgesamt/n) %>%
-  mutate(Infra_by_fläche = Fläche/n) %>%
+  mutate(pop_by_infra = n/insgesamt) %>%
+  mutate(fläche_by_infra = n/Fläche) %>%
   group_by(type) %>%
-  mutate(min(Infra_by_pop)) %>%
-  mutate(INfra_rank = (min(Infra_by_pop)/Infra_by_pop))
+  mutate(median(pop_by_infra)) %>%
+  mutate(Infra_rank = (pop_by_infra/median(pop_by_infra)))%>%
+  mutate(med_relation = (Infra_rank-1))
+  
   
 head(geo_data_full)
 
