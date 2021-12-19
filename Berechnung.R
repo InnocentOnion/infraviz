@@ -1,6 +1,8 @@
 library(tidyverse)
 library(sf)
 library(tidygeocoder)
+
+#Pfade anpassen
 geo_data_raw<-read_csv("/Users/cedric/Dropbox/Data Science II/All_data/infradata_gesamt.csv")
 #geometry ist CHR!
 
@@ -9,10 +11,8 @@ geo_data_transformed<-geo_data_raw %>%
   group_by(NUTS_CODE) %>%
   count(type) 
 
-
 #Populationsdaten importieren
 pop_data<-read_excel("/Users/cedric/Dropbox/Data Science II/All_data/Bevölkerung_und_Fläche_Kreise.xlsx") 
-
 
 #Pop-Daten und Geodaten zusammenführen + Neue SPalten hinzufügen
 geo_data_full<-geo_data_transformed %>%

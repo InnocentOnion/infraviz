@@ -10,8 +10,11 @@ landkreise = readOGR(dsn = "/Users/cedric/Dropbox/Data Science II/All_data/nuts5
 plot(landkreise)
 ?readOGR
 
-landkreise2<-st_read(dsn = "/Users/cedric/Dropbox/Data Science II/All_data/DEU_adm", layer = "DEU_adm2")
+landkreise2<-st_read(dsn = "/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data/DEU_adm", layer = "DEU_adm2")
 
+landkreise3<-st_read(dsn = "/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data/DEU_adm", layer = "DEU_adm3")
+
+plot(landkreise3)
 
 geodata_infra<-st_as_sf(Apotheken, coords = c("Longitude", "Latitude"))
 
@@ -27,4 +30,5 @@ lk_trans<-lk_trans %>%
 apo_join<-st_join(pnts_trans, lk_trans, join = st_within)
 apo_count<-count(as_tibble(apo_join), NAME_2) %>% print()
 as_tibble(apo_join)
+
 
