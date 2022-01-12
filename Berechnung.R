@@ -23,7 +23,7 @@ geo_data_full<-geo_data_transformed %>%
   group_by(type) %>%
   mutate(median(pop_by_infra)) %>%
   mutate(Infra_rank = (pop_by_infra/median(pop_by_infra)))%>%
-  mutate(med_relation = (Infra_rank-1))
+  mutate(med_relation = (Infra_rank-1)) #-1 damit die Abweichung des Werts des Infra_rank vom Median als prozentuale Abweichung nach oben oder nach unten betrachtet werden kann
   
   
 head(geo_data_full)
