@@ -50,40 +50,42 @@ shinyServer(function(input, output) {
             )
      })
     rank_generator<-reactive({
-        input_data<- tribble(
-            ~type, ~weight,
+       #input_data<- 
+      input_data<-tribble(
+           ~type, ~weight,
             "Apotheke", input$Apotheke,
-            "Bahnhof", input$Bahnhöfe,
+           "Bahnhof", input$Bahnhöfe,
             "Bushaltestelle", input$Bushaltestellen,
             "Feuerwehrstation", input$Feuerwehrstationen,
-            "Fitnessstudio/Sportplatz", input$Fitnessstudio/Sportplätze,
+            "Fitnessstudio/Sportplatz", input$Fitnessstudios,
             "Krankenhaus", input$Krankenhäuser,
             "Park", input$Park,
             "Polizeistation", input$Polizeistationen,
-            "Schule", input$Schulen
+          "Schule", input$Schulen
             
         )
-        inner_join(geo_data_merged, input_data, by = "type") %>%
+        a<-inner_join(geo_data_merged, input_data, by = "type") %>%
+            mutate(weight = as.numeric(unlist(weight))) %>%
             mutate(weighted_rank = weight*Infra_rank) %>%
             group_by(NUTS_CODE, Kreise) %>%
             summarise(full_rank = sum(weighted_rank))
+        a
     })
-    output$map <- renderPlot({
+    output$map_plot <- renderPlot({
         map_data <- rank_generator()
         #Datensätze für Visualisierung säubern und zusammenführen
-        geo_data_tidy<-tidy(k_trans)
-        geo_data_tidy2 <- left_join(geo_data_tidy, k_trans@data)
-        full_polygon_data<-left_join(geo_data_tidy2, map_data, by = "NUTS_CODE")
+  
         
-        ggplot(full_polygon_data, aes(x = long, y = lat, group = group, fill = full_rank)) +
+    
+        #full_polygon_data<-left_join(geo_data_tidy2, map_data, by = "NUTS_CODE")
+        c<-left_join(geo_data_tidy2, map_data)
+        ggplot(c, aes(x = long, y = lat, group = group, fill = full_rank)) +
             geom_polygon(color = "black", size = 0.1) +
             coord_equal() +
-            theme_minimal()
-            labs(
-                title = "Infrastruktur im Verhältnis zum deutschen Median",
-                x = "Infrastrukturkategorie",
-                y = "Prozentuale Abweichung vom Median",
-                caption = "Quelle: Internet"
-            )
-    })}
+            theme_void()+
+            scale_fill_gradient(low = "#ea444d", high = "#68bfe8")+
+        labs(
+            caption = "Quelle: Internet", fill = "Infrastruktur-Rang", title = "Verteilung von Infrastruktur in Deutschland entsprechend der ausgewählten Gewichtung"
+        )
+    })})
 

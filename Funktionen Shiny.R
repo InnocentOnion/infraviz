@@ -68,3 +68,6 @@ weight_generator<-function(data){
     group_by(NUTS_CODE, Kreise) %>%
     summarise(full_rank = sum(weighted_rank))
 }
+a<-rank_generator(1,1,1,1,1,1,1,1,1)
+b<-weight_generator(a)
+b
