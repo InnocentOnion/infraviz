@@ -3,10 +3,12 @@ library(sf)
 #Zuordnen von administrativen Bezikrne zu Infrastrukturpunkten
 
 #Landkreise laden
+infradata<-read.csv("/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data/infradata.csv")
+
 landkreise3<-st_read(dsn = "/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data/nuts5000_12-31.gk3.shape/nuts5000", layer = "5000_NUTS3")
 head(landkreise3)
 #Daten in Haupttabelle transformieren
-geodaten_gesamt<-infradata %>%
+geodaten_gesamt<-infradata %>% 
   filter(Latitude!="NA")
 geodaten_gesamt<-st_as_sf(geodaten_gesamt, coords = c("Longitude", "Latitude")) #Funktion st_as_sf transformiert Längen- und Breitengrade in Längen und Breitengrade, die von Geo-Funktionen lesbar sind
 
@@ -23,4 +25,5 @@ apo_join<-st_join(pnts_trans_all, k_trans, join = st_within) #Zusammenführen de
 #Jetzt ist jedem Infrastrukturpunkt ein Landkreis zugeordnet
 
 as_tibble(apo_join)
-write.csv(apo_join, "/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data/infradata_gesamt.csv")
+###########CSV Schreiben
+#write.csv(apo_join, "/Users/georgwamsler/Dropbox (Privat)/Universität/9.Semester/Data Science II/All_data/infradata_gesamt.csv")
