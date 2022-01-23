@@ -45,3 +45,26 @@ plot_rank<-function(c){
   d
 }
 
+#Funktion, die jeder Kategorie Gewichtung zuweist
+rank_generator<-function(a,b,c,d,e,f,g,h,i){
+  tribble(
+    ~type, ~weight,
+    "Apotheke", a,
+    "Bahnhof", b,
+    "Bushaltestelle", c,
+    "Feuerwehrstation", d,
+    "Fitnessstudio/Sportplatz", e,
+    "Krankenhaus", f,
+    "Park", g,
+    "Polizeistation", h,
+    "Schule", i
+    
+  )
+}
+#Funktion, die Gewichtung nach Landkreis aggregiert
+weight_generator<-function(data){
+  inner_join(geo_data_merged, data, by = "type") %>%
+    mutate(weighted_rank = weight*Infra_rank) %>%
+    group_by(NUTS_CODE, Kreise) %>%
+    summarise(full_rank = sum(weighted_rank))
+}
