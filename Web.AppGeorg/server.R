@@ -49,5 +49,41 @@ shinyServer(function(input, output) {
                 caption = "Quelle: Internet"
             )
      })
-    
+    rank_generator<-reactive({
+        input_data<- tribble(
+            ~type, ~weight,
+            "Apotheke", input$Apotheke,
+            "Bahnhof", input$Bahnhöfe,
+            "Bushaltestelle", input$Bushaltestellen,
+            "Feuerwehrstation", input$Feuerwehrstationen,
+            "Fitnessstudio/Sportplatz", input$Fitnessstudio/Sportplätze,
+            "Krankenhaus", input$Krankenhäuser,
+            "Park", input$Park,
+            "Polizeistation", input$Polizeistationen,
+            "Schule", input$Schulen
+            
+        )
+        inner_join(geo_data_merged, input_data, by = "type") %>%
+            mutate(weighted_rank = weight*Infra_rank) %>%
+            group_by(NUTS_CODE, Kreise) %>%
+            summarise(full_rank = sum(weighted_rank))
     })
+    output$map <- renderPlot({
+        map_data <- rank_generator()
+        #Datensätze für Visualisierung säubern und zusammenführen
+        geo_data_tidy<-tidy(k_trans)
+        geo_data_tidy2 <- left_join(geo_data_tidy, k_trans@data)
+        full_polygon_data<-left_join(geo_data_tidy2, map_data, by = "NUTS_CODE")
+        
+        ggplot(full_polygon_data, aes(x = long, y = lat, group = group, fill = full_rank)) +
+            geom_polygon(color = "black", size = 0.1) +
+            coord_equal() +
+            theme_minimal()
+            labs(
+                title = "Infrastruktur im Verhältnis zum deutschen Median",
+                x = "Infrastrukturkategorie",
+                y = "Prozentuale Abweichung vom Median",
+                caption = "Quelle: Internet"
+            )
+    })}
+
