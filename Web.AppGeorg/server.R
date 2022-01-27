@@ -8,7 +8,7 @@
 #
 
 library(shiny)
-
+library(shinydashboard)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     #output$value <- renderPrint({
@@ -41,7 +41,10 @@ shinyServer(function(input, output) {
             filter(NUTS_CODE == data$NUTS_CODE) %>%
             ggplot() +
             aes(x = type, y = med_relation * 100) +
-            geom_bar(stat = "identity") +
+            geom_bar(colour="#1f2d33", stat = "identity", width = 0.5, fill = "#1f2d33") +
+            theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+           theme(axis.text = element_text(size = 15)) +
+          
             labs(
                 title = "Infrastruktur im Verhältnis zum deutschen Median",
                 x = "Infrastrukturkategorie",
