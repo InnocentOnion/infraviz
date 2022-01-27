@@ -19,6 +19,5 @@ ggplot(Spielerei_tidy, aes(x = long, y = lat, group = group, fill = runif)) +
   coord_equal() +
   theme_minimal()
 
-view(Spielerei_tidy)
+head(lk)
 view(geo_data_merged)
-
